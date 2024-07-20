@@ -24,7 +24,7 @@ public final class PaperCodecTest extends JavaPlugin {
 
         // register listeners
         ServerPlayNetworking.registerGlobalReceiver(TestPacket.TYPE, (packet, player) -> {
-            LOGGER.info("received test packet with block pos {} and string {}", packet.blockPos(), packet.string());
+            LOGGER.info("received test packet with block pos {}, string {} and item {}", packet.blockPos(), packet.string(), packet.item());
             ServerPlayNetworking.send(player, packet);
         });
     }
