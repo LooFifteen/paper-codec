@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "id": "paper-codec",
+  "version": "0.0.0",
+  "name": "paper-codec",
+  "description": "",
+  "authors": [],
+  "contact": {},
+  "license": "Apache-2.0",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "dev.lu15.papercodec.test.mod.PaperCodecTest"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=0.15.11",
+    "fabric": "*",
+    "minecraft": ">=1.20.5"
+  }
+}
