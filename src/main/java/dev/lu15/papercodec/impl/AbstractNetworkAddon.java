@@ -7,6 +7,7 @@ import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public abstract class AbstractNetworkAddon<H> {
 
@@ -19,8 +20,12 @@ public abstract class AbstractNetworkAddon<H> {
         this.receiver = receiver;
     }
 
-    public final void lateInit() {
+    public final void initialise() {
         this.receiver.startSession(this);
+    }
+
+    public final void shutdown() {
+        this.receiver.endSession(this);
     }
 
     public void registerChannels(@NotNull Map<ResourceLocation, H> map) {
@@ -50,6 +55,20 @@ public abstract class AbstractNetworkAddon<H> {
         }
     }
 
+    public @Nullable H unregisterChannel(@NotNull ResourceLocation channel) {
+        Lock lock = this.lock.writeLock();
+        lock.lock();
+
+        try {
+            H handler = this.handlers.remove(channel);
+            if (handler != null) this.handleUnregistration(channel);
+            return handler;
+        } finally {
+            lock.unlock();
+        }
+    }
+
     protected abstract void handleRegistration(@NotNull ResourceLocation channel);
+    protected abstract void handleUnregistration(@NotNull ResourceLocation channel);
 
 }

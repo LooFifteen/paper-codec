@@ -13,7 +13,7 @@ public final class PaperCodec {
 
     public static void init(@NotNull JavaPlugin plugin) {
         // register receivers
-        new ServerPlayNetworkAddon(plugin, ServerNetworkingImpl.PLAY);
+        new ServerPlayNetworkAddon(plugin, ServerNetworkingImpl.PLAY).initialise();
 
         LOGGER.info("paper-codec initialised");
     }

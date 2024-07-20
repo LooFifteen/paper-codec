@@ -41,6 +41,6 @@ publishing {
 paperPluginYaml {
     main = "dev.lu15.papercodec.PaperCodecPlugin"
     author = "LooFifteen"
-    apiVersion = "1.21"
+    apiVersion = "1.20"
     version = rootProject.version as String
 }

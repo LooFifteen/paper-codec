@@ -18,13 +18,16 @@ public final class ServerPlayNetworkAddon extends AbstractNetworkAddon<ServerPla
     public ServerPlayNetworkAddon(@NotNull JavaPlugin plugin, @NotNull GlobalReceiverRegistry<ServerPlayNetworking.PlayPayloadHandler<?>> receiver) {
         super(receiver);
         this.plugin = plugin;
-
-        this.lateInit();
     }
 
     @Override
     protected void handleRegistration(@NotNull ResourceLocation channel) {
         this.plugin.getServer().getMessenger().registerIncomingPluginChannel(this.plugin, channel.toString(), this);
+    }
+
+    @Override
+    protected void handleUnregistration(@NotNull ResourceLocation channel) {
+        this.plugin.getServer().getMessenger().unregisterIncomingPluginChannel(this.plugin, channel.toString(), this);
     }
 
     @SuppressWarnings("unchecked") // safe case

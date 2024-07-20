@@ -4,15 +4,21 @@ import dev.lu15.papercodec.impl.ServerNetworkingImpl;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.common.ClientCommonPacketListener;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public final class ServerPlayNetworking {
 
     public static <T extends CustomPacketPayload> boolean registerGlobalReceiver(@NotNull CustomPacketPayload.Type<T> type, @NotNull PlayPayloadHandler<T> handler) {
         return ServerNetworkingImpl.PLAY.registerGlobalReceiver(type.id(), handler);
+    }
+
+    public static @Nullable ServerPlayNetworking.PlayPayloadHandler<?> unregisterGlobalReceiver(@NotNull ResourceLocation id) {
+        return ServerNetworkingImpl.PLAY.unregisterGlobalReceiver(id);
     }
 
     public static void send(@NotNull Player player, @NotNull CustomPacketPayload payload) {

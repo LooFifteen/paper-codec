@@ -10,7 +10,6 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 import net.minecraft.network.ConnectionProtocol;
 import net.minecraft.network.protocol.PacketFlow;
 import net.minecraft.resources.ResourceLocation;
-import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -64,10 +63,23 @@ public final class GlobalReceiverRegistry<H> {
 
         try {
             boolean replaced = this.handlers.putIfAbsent(channel, handler) == null;
-
             if (replaced) this.handleRegistration(channel, handler);
-
             return replaced;
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    public @Nullable H unregisterGlobalReceiver(@NotNull ResourceLocation channel) {
+        // todo: check if is a reserved channel name
+
+        Lock lock = this.lock.writeLock();
+        lock.lock();
+
+        try {
+            H removed = this.handlers.remove(channel);
+            if (removed != null) this.handleUnregistration(channel);
+            return removed;
         } finally {
             lock.unlock();
         }
@@ -78,9 +90,18 @@ public final class GlobalReceiverRegistry<H> {
         lock.lock();
 
         try {
-            for (AbstractNetworkAddon<H> addon : this.trackedAddons) {
-                addon.registerChannel(channel, handler);
-            }
+            for (AbstractNetworkAddon<H> addon : this.trackedAddons) addon.registerChannel(channel, handler);
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    private void handleUnregistration(@NotNull ResourceLocation channel) {
+        Lock lock = this.lock.writeLock();
+        lock.lock();
+
+        try {
+            for (AbstractNetworkAddon<H> addon : this.trackedAddons) addon.unregisterChannel(channel);
         } finally {
             lock.unlock();
         }
@@ -92,6 +113,17 @@ public final class GlobalReceiverRegistry<H> {
 
         try {
             if (this.trackedAddons.add(addon)) addon.registerChannels(handlers);
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    public void endSession(@NotNull AbstractNetworkAddon<H> addon) {
+        Lock lock = this.lock.writeLock();
+        lock.lock();
+
+        try {
+            this.trackedAddons.remove(addon);
         } finally {
             lock.unlock();
         }
