@@ -2,7 +2,7 @@ plugins {
     `java-library`
     `maven-publish`
     id("io.papermc.paperweight.userdev") version "1.7.1"
-    id("xyz.jpenilla.resource-factory-paper-convention") version "1.1.2"
+    id("xyz.jpenilla.resource-factory-paper-convention") version "1.2.0"
 }
 
 val minecraftVersion: String by project
