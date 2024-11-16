@@ -1,11 +1,7 @@
 plugins {
     `java-library`
-    id("fabric-loom") version "1.7-SNAPSHOT"
+    alias(libs.plugins.fabric.loom)
 }
-
-val minecraftVersion: String by project
-val loaderVersion: String by project
-val apiVersion: String by project
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 
@@ -15,10 +11,10 @@ loom {
 }
 
 dependencies {
-    minecraft("com.mojang:minecraft:$minecraftVersion")
+    minecraft(libs.minecraft)
     mappings(loom.officialMojangMappings())
-    modImplementation("net.fabricmc:fabric-loader:$loaderVersion")
+    modImplementation(libs.fabric.loader)
 
-    modImplementation("net.fabricmc.fabric-api:fabric-api:$apiVersion")
+    modImplementation(libs.fabric.api)
     implementation(project(path = ":paper-codec-test-shared", configuration = "namedElements"))
 }

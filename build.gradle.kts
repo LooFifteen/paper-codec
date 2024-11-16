@@ -1,11 +1,9 @@
 plugins {
     `java-library`
     `maven-publish`
-    id("io.papermc.paperweight.userdev") version "1.7.4"
-    id("xyz.jpenilla.resource-factory-paper-convention") version "1.1.2"
+    alias(libs.plugins.paper.paperweight)
+    alias(libs.plugins.paper.resource)
 }
-
-val minecraftVersion: String by project
 
 group = "dev.lu15"
 version = "0.1.0"
@@ -17,7 +15,7 @@ repositories {
 }
 
 dependencies {
-    paperweight.paperDevBundle("$minecraftVersion-R0.1-SNAPSHOT")
+    paperweight.paperDevBundle("${libs.versions.minecraft.get()}-R0.1-SNAPSHOT")
 }
 
 publishing {
@@ -41,6 +39,6 @@ publishing {
 paperPluginYaml {
     main = "dev.lu15.papercodec.PaperCodecPlugin"
     author = "LooFifteen"
-    apiVersion = "1.20"
+    apiVersion = "1.21"
     version = rootProject.version as String
 }

@@ -1,6 +1,6 @@
 plugins {
     `java-library`
-    id("fabric-loom") version "1.7-SNAPSHOT"
+    alias(libs.plugins.fabric.loom)
 }
 
 val minecraftVersion: String by project
@@ -13,6 +13,6 @@ loom {
 }
 
 dependencies {
-    minecraft("com.mojang:minecraft:$minecraftVersion")
+    minecraft(libs.minecraft)
     mappings(loom.officialMojangMappings())
 }
