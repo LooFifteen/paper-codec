@@ -1,0 +1,38 @@
+[versions]
+# minecraft
+minecraft = "1.21.3"
+
+# paper
+paper-paperweight = "1.7.4"
+paper-run = "2.3.1"
+paper-resource = "1.2.0"
+
+# fabric
+fabric-loom = "1.8-SNAPSHOT"
+fabric-api = "0.108.0+1.21.3"
+fabric-loader = "0.16.9"
+
+# misc
+shadow = "8.3.5"
+
+
+[libraries]
+# minecraft
+minecraft = { module = "com.mojang:minecraft", version.ref = "minecraft" }
+
+# fabric
+fabric-api = { module = "net.fabricmc.fabric-api:fabric-api", version.ref = "fabric-api" }
+fabric-loader = { module = "net.fabricmc:fabric-loader", version.ref = "fabric-loader" }
+
+
+[plugins]
+# fabric
+fabric-loom = { id = "fabric-loom", version.ref = "fabric-loom" }
+
+# paper
+paper-paperweight = { id = "io.papermc.paperweight.userdev", version.ref = "paper-paperweight" }
+paper-run = { id = "xyz.jpenilla.run-paper", version.ref = "paper-run" }
+paper-resource = { id = "xyz.jpenilla.resource-factory-paper-convention", version.ref = "paper-resource" }
+
+# misc
+shadow = { id = "com.gradleup.shadow", version.ref = "shadow" }
